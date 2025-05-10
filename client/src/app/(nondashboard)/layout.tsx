@@ -6,7 +6,6 @@ import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
 	const { data: authUser } = useGetAuthUserQuery();
-	console.log("Auth User", authUser);
 	return (
 		<>
 			<Navbar />
