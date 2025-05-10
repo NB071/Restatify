@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/tenants", authMiddleware(["tenant"]), tenantRoutes);
-app.use("/manager", authMiddleware(["manager"]), managerRoutes);
+app.use("/managers", authMiddleware(["manager"]), managerRoutes);
 
 // SERVER
 const port = process.env.PORT || 3002;
