@@ -4,8 +4,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const getManager = async (
-	res: Response,
-	req: Request
+	req: Request,
+	res: Response
 ): Promise<void> => {
 	try {
 		const { cognitoId } = req.params;

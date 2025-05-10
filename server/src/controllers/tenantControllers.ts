@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getTenant = async (res: Response, req: Request): Promise<void> => {
+export const getTenant = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const { cognitoId } = req.params;
 		const tenant = await prisma.tenant.findUnique({
