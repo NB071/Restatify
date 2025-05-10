@@ -8,7 +8,7 @@ export const api = createApi({
 		baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
 		prepareHeaders: async (headers) => {
 			const session = await fetchAuthSession();
-			const idToken = session?.tokens ?? {};
+			const { idToken } = session.tokens ?? {};
 
 			if (idToken) {
 				headers.set("Authorization", `Bearer ${idToken}`);
@@ -61,4 +61,4 @@ export const api = createApi({
 	}),
 });
 
-export const {} = api;
+export const { useGetAuthUserQuery } = api;
