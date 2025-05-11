@@ -2,11 +2,14 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import {
 	Sidebar,
+	SidebarContent,
 	SidebarHeader,
 	SidebarMenu,
+	SidebarMenuButton,
 	SidebarMenuItem,
 	useSidebar,
 } from "./ui/sidebar";
+import { motion, AnimatePresence } from "framer-motion";
 import {
 	Building,
 	FileText,
@@ -19,6 +22,7 @@ import {
 import { NAVBAR_HEIGHT } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 const AppSidebar = ({ userType }: AppSidebarProps) => {
 	const pathname = usePathname();
@@ -67,13 +71,18 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
 			  ];
 	return (
 		<Sidebar
+			side="left"
 			collapsible="icon"
-			className="fixed left-0 bg-white shadow-lg"
+			className={cn(
+				"fixed bg-white shadow-lg transition-all duration-500 ease-in-out",
+				open ? "w-64" : "w-16"
+			)}
 			style={{
 				top: `${NAVBAR_HEIGHT}px`,
 				height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
 			}}
 		>
+			{/* Sidebar Header */}
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
@@ -83,32 +92,98 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
 								open ? "justify-between px-4" : "justify-center"
 							)}
 						>
-							{open ? (
-								<>
-									<h1 className="text-xl font-bold text-gray-800">
-										{userType === "manager"
-											? "Manager View"
-											: "Renter View"}
-									</h1>
-									<Button
-										className="hover:bg-gray-100 p-2 rounded-md"
-										onClick={toggleSidebar}
+							<AnimatePresence mode="wait">
+								{open ? (
+									<motion.div
+										key="open-header"
+										initial={{ opacity: 0, y: -10 }}
+										animate={{ opacity: 1, y: 0 }}
+										exit={{ opacity: 0, y: -10 }}
+										transition={{ duration: 0.2 }}
+										className="flex w-full justify-between items-center"
 									>
-										<X className="h-6 w-6 text-gray-600" />
-									</Button>
-								</>
-							) : (
-								<Button
-									className="hover:bg-gray-100 p-2 rounded-md"
-									onClick={toggleSidebar}
-								>
-									<Menu className="h-6 w-6 text-gray-600" />
-								</Button>
-							)}
+										<h1 className="text-xl font-bold text-gray-800">
+											{userType === "manager"
+												? "Manager View"
+												: "Renter View"}
+										</h1>
+										<Button
+											className="hover:bg-gray-100 p-2 rounded-md"
+											onClick={toggleSidebar}
+										>
+											<X className="h-6 w-6 text-gray-600" />
+										</Button>
+									</motion.div>
+								) : (
+									<motion.div
+										key="closed-header"
+										initial={{ opacity: 0 }}
+										animate={{ opacity: 1 }}
+										exit={{ opacity: 0 }}
+										transition={{ duration: 0.2 }}
+									>
+										<Button
+											className="hover:bg-gray-100 p-2 rounded-md"
+											onClick={toggleSidebar}
+										>
+											<Menu className="h-6 w-6 text-gray-600" />
+										</Button>
+									</motion.div>
+								)}
+							</AnimatePresence>
 						</div>
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarHeader>
+
+			{/* Sidebar Menu */}
+			<SidebarContent>
+				<SidebarMenu>
+					{navLinks.map((link) => {
+						const isActive = pathname === link.path;
+
+						return (
+							<SidebarMenuItem key={link.path}>
+								<SidebarMenuButton
+									asChild
+									className={cn(
+										"flex items-center px-7 py-7",
+										isActive
+											? "bg-gray-100"
+											: "text-gray-600 hover:bg-gray-100",
+										open ? "text-blue-600" : "ml-[5px]"
+									)}
+								>
+									<Link
+										href={link.path}
+										className="w-full"
+										scroll={false}
+									>
+										<div className="flex items-center gap-3">
+											<link.icon
+												className={`h-5 w-5 ${
+													isActive
+														? "text-blue-600"
+														: "text-gray-600"
+												}`}
+											/>
+											<span
+												className={`font-medium ${
+													isActive
+														? "text-blue-600"
+														: "text-gray-600"
+												}`}
+											>
+												{link.label}
+											</span>
+										</div>
+									</Link>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						);
+					})}
+				</SidebarMenu>
+			</SidebarContent>
 		</Sidebar>
 	);
 };

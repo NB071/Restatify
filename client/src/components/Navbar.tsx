@@ -1,3 +1,5 @@
+"use client";
+
 import { NAVBAR_HEIGHT } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
@@ -86,7 +88,7 @@ const Navbar = () => {
 								<>
 									<Search className="h-4 w-4" />
 									<span className="hidden md:block ml-2">
-										Search
+										Search Properties
 									</span>
 								</>
 							)}
