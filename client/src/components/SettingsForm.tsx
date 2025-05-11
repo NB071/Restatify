@@ -78,7 +78,6 @@ const SettingsForm = ({
 							{editMode && (
 								<Button
 									type="submit"
-									onClick={toggleEditMode}
 									className="bg-primary-700 text-white hover:bg-primary-800 duration-300"
 								>
 									Save Changes

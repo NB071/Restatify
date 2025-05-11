@@ -3,7 +3,6 @@
 import Navbar from "@/components/Navbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import Sidebar from "@/components/AppSidebar";
-import { NAVBAR_HEIGHT } from "@/lib/constants";
 import React, { useEffect, useState } from "react";
 import { useGetAuthUserQuery } from "@/state/api";
 import { usePathname, useRouter } from "next/navigation";
