@@ -74,11 +74,10 @@ const AppSidebar = ({ userType }: AppSidebarProps) => {
 			side="left"
 			collapsible="icon"
 			className={cn(
-				"fixed bg-white shadow-lg transition-all duration-500 ease-in-out",
+				"sticky bg-white shadow-lg transition-all duration-500 ease-in-out",
 				open ? "w-64" : "w-16"
 			)}
 			style={{
-				top: `${NAVBAR_HEIGHT}px`,
 				height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
 			}}
 		>
