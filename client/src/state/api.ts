@@ -17,7 +17,7 @@ export const api = createApi({
 		},
 	}),
 	reducerPath: "api",
-	tagTypes: [],
+	tagTypes: ["Managers", "Tenants"],
 	endpoints: (build) => ({
 		getAuthUser: build.query<User, void>({
 			queryFn: async (_, _queryApi, _extraOpt, fetchBaseQ) => {
@@ -58,7 +58,34 @@ export const api = createApi({
 				}
 			},
 		}),
+		updateTenantSettings: build.mutation<
+			Tenant,
+			{ cognitoId: string } & Partial<Tenant>
+		>({
+			query: ({ cognitoId, ...updatedTenant }) => ({
+				url: `/tenants/${cognitoId}`,
+				method: "PUT",
+				body: updatedTenant,
+			}),
+			invalidatesTags: (res) => [{ type: "Tenants", id: res?.id }],
+		}),
+
+		updateManagerSettings: build.mutation<
+			Manager,
+			{ cognitoId: string } & Partial<Manager>
+		>({
+			query: ({ cognitoId, ...updatedManager }) => ({
+				url: `/managers/${cognitoId}`,
+				method: "PUT",
+				body: updatedManager,
+			}),
+			invalidatesTags: (res) => [{ type: "Managers", id: res?.id }],
+		}),
 	}),
 });
 
-export const { useGetAuthUserQuery } = api;
+export const {
+	useGetAuthUserQuery,
+	useUpdateTenantSettingsMutation,
+	useUpdateManagerSettingsMutation,
+} = api;
