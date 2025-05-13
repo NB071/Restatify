@@ -2,12 +2,15 @@ export const MESSAGES = {
 	TENANT: {
 		TENANT_NOT_FOUND: "Tenant not found",
 		ERR_RETRIEVING_TENANT: "Error retrieving tenant",
+		ERR_RETRIEVING_TENANT_RESIDENCES: "Error retrieving tenant residences",
 		ERR_CREATING_TENANT: "Error creating tenant",
 		ERR_UPDATING_TENANT: "Error updating tenant",
 	},
 	MANAGER: {
 		MANAGER_NOT_FOUND: "Manager not found",
 		ERR_RETRIEVING_MANAGER: "Error retrieving manager",
+		ERR_RETRIEVING_MANAGER_PROPERTIES:
+			"Error retrieving manager properties",
 		ERR_CREATING_MANAGER: "Error creating manager",
 		ERR_UPDATING_MANAGER: "Error updating manager",
 	},
@@ -15,6 +18,7 @@ export const MESSAGES = {
 		PROPERTY_NOT_FOUND: "Property not found",
 		ERR_RETRIEVING_PROPERTY: "Error retrieving property",
 		ERR_RETRIEVING_PROPERTIES: "Error retrieving properties",
+
 		ERR_CREATING_PROPERTY: "Error creating property",
 	},
 } as const;
