@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { wktToGeoJSON } from "@terraformer/wkt";
+import { HTTP_STATUS, MESSAGES } from "../constants";
 
 const prisma = new PrismaClient();
 
@@ -139,10 +140,13 @@ export const getProperties = async (
         `;
 		// ===== execute/return query =====
 		const properties = await prisma.$queryRaw(completeQuery);
-		res.status(200).json(properties);
+		res.status(HTTP_STATUS.OK).json(properties);
 	} catch (error: any) {
-		res.status(500).json({
-			message: `error retrieving properties: ${error.message}`,
+		res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+			message: MESSAGES.PROPERTY.ERR_RETRIEVING_PROPERTIES.concat(
+				" : ",
+				error.message
+			),
 		});
 	}
 };
@@ -186,11 +190,14 @@ export const getProperty = async (
 					},
 				},
 			};
-			res.status(200).json(propertyWithCoordinates);
+			res.status(HTTP_STATUS.OK).json(propertyWithCoordinates);
 		}
 	} catch (error: any) {
-		res.status(500).json({
-			message: `error retrieving property: ${error.message}`,
+		res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+			message: MESSAGES.PROPERTY.ERR_RETRIEVING_PROPERTY.concat(
+				" : ",
+				error.message
+			),
 		});
 	}
 };
@@ -215,8 +222,11 @@ export const createProperty = async (
 		//     files.map()
 		// )
 	} catch (error: any) {
-		res.status(500).json({
-			message: `error creating property: ${error.message}`,
+		res.status(HTTP_STATUS.CREATED).json({
+			message: MESSAGES.PROPERTY.ERR_CREATING_PROPERTY.concat(
+				" : ",
+				error.message
+			),
 		});
 	}
 };

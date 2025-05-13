@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { HTTP_STATUS, MESSAGES } from "../constants";
 
 const prisma = new PrismaClient();
 
@@ -16,13 +17,18 @@ export const getManager = async (
 		});
 
 		if (manager) {
-			res.status(200).json(manager);
+			res.status(HTTP_STATUS.OK).json(manager);
 		} else {
-			res.status(404).json({ message: "Manager not found" });
+			res.status(HTTP_STATUS.NOT_FOUND).json({
+				message: MESSAGES.MANAGER.MANAGER_NOT_FOUND,
+			});
 		}
 	} catch (error: any) {
-		res.status(500).json({
-			message: `error retrieving manager: ${error.message}`,
+		res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+			message: MESSAGES.MANAGER.ERR_RETRIEVING_MANAGER.concat(
+				" : ",
+				error.message
+			),
 		});
 	}
 };
@@ -43,10 +49,13 @@ export const createManager = async (
 			},
 		});
 
-		res.status(201).json(newManager);
+		res.status(HTTP_STATUS.CREATED).json(newManager);
 	} catch (error: any) {
-		res.status(500).json({
-			message: `error creating manager: ${error.message}`,
+		res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+			message: MESSAGES.MANAGER.ERR_CREATING_MANAGER.concat(
+				" : ",
+				error.message
+			),
 		});
 	}
 };
@@ -70,10 +79,13 @@ export const updateManager = async (
 			},
 		});
 
-		res.status(200).json(updatedManager);
+		res.status(HTTP_STATUS.OK).json(updatedManager);
 	} catch (error: any) {
-		res.status(500).json({
-			message: `error updating manager: ${error.message}`,
+		res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+			message: MESSAGES.MANAGER.ERR_UPDATING_MANAGER.concat(
+				" : ",
+				error.message
+			),
 		});
 	}
 };

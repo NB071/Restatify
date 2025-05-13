@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { HTTP_STATUS, MESSAGES } from "../constants";
 
 const prisma = new PrismaClient();
 
@@ -16,13 +17,18 @@ export const getTenant = async (req: Request, res: Response): Promise<void> => {
 		});
 
 		if (tenant) {
-			res.status(200).json(tenant);
+			res.status(HTTP_STATUS.OK).json(tenant);
 		} else {
-			res.status(404).json({ message: "Tenant not found" });
+			res.status(HTTP_STATUS.NOT_FOUND).json({
+				message: MESSAGES.TENANT.TENANT_NOT_FOUND,
+			});
 		}
 	} catch (error: any) {
-		res.status(500).json({
-			message: `error retrieving tenant: ${error.message}`,
+		res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+			message: MESSAGES.TENANT.ERR_RETRIEVING_TENANT.concat(
+				" : ",
+				error.message
+			),
 		});
 	}
 };
@@ -43,10 +49,13 @@ export const createTenant = async (
 			},
 		});
 
-		res.status(201).json(newTenant);
+		res.status(HTTP_STATUS.CREATED).json(newTenant);
 	} catch (error: any) {
-		res.status(500).json({
-			message: `error creating tenant: ${error.message}`,
+		res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+			message: MESSAGES.TENANT.ERR_CREATING_TENANT.concat(
+				" : ",
+				error.message
+			),
 		});
 	}
 };
@@ -70,10 +79,13 @@ export const updateTenant = async (
 			},
 		});
 
-		res.status(200).json(updatedTenant);
+		res.status(HTTP_STATUS.OK).json(updatedTenant);
 	} catch (error: any) {
-		res.status(500).json({
-			message: `error updating tenant: ${error.message}`,
+		res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+			message: MESSAGES.TENANT.ERR_UPDATING_TENANT.concat(
+				" : ",
+				error.message
+			),
 		});
 	}
 };
