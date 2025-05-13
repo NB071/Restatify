@@ -15,5 +15,6 @@ export const MESSAGES = {
 		PROPERTY_NOT_FOUND: "Property not found",
 		ERR_RETRIEVING_PROPERTY: "Error retrieving property",
 		ERR_RETRIEVING_PROPERTIES: "Error retrieving properties",
+		ERR_CREATING_PROPERTY: "Error creating property",
 	},
 } as const;
