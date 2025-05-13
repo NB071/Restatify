@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import chalk from "chalk";
+import boxen from "boxen";
 import { authMiddleware } from "./middleware/authMiddleware";
 
 // ROUTE IMPORTS
@@ -34,6 +36,19 @@ app.use("/managers", authMiddleware([ROLES.MANAGER]), managerRoutes);
 
 // SERVER
 const port = process.env.PORT || 3002;
+
+const message =
+	chalk.green.bold(`🚀 Server is live at:`) +
+	"\n" +
+	chalk.cyan(`👉 http://localhost:${port}`);
+
 app.listen(port, () => {
-	console.log(`Server is running on port: ${port}`);
+	console.log(
+		boxen(message, {
+			padding: 1,
+			margin: 1,
+			borderStyle: "round",
+			borderColor: "green",
+		})
+	);
 });
